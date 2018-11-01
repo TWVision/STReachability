@@ -33,3 +33,38 @@ iOS 设备的实时网络状态，且可以监听网络的变化事件
             break;
     }
 ```
+### 监听网络的变化事件
+```objc
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // 监听通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:STReachabilityManagerNetworkStatusChangedNotification object:nil];
+}
+
+- (void)reachabilityChanged:(NSNotification *)note
+{
+    STNetworkStatus networkStatus = [STReachabilityManager sharedManager].networkStatus;
+    switch (networkStatus) {
+        case STNotReachable://无网络
+            
+            break;
+        case STReachableViaWiFi://WIFI
+            
+            break;
+        case STReachableViaWWAN://网络运营商
+            
+            break;
+        default:
+            break;
+    }
+}
+```
+**记住通知要销毁**
+```objc
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:STReachabilityManagerNetworkStatusChangedNotification object:nil];
+}
+
+```
